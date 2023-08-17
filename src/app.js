@@ -11,5 +11,7 @@ app.get("/", (req, res) => {
 });
 //hello from the other side
 //hello from inside
-
+app.get("/orders", (req, res) => {
+  res.send("get your orders today!");
+});
 module.exports = app;
