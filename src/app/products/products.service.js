@@ -5,13 +5,18 @@ const createProductToDB = async(data) => {
     await product.save() // Save the product instance to the database
 }
 
-const deleteProductByIdFromDB = async(id) => {
-    const deletedProduct = await Product.deleteOne({ _id: id }) // Delete the product based on the ID
-    return deletedProduct
-}
-
 const getAllProductFromDB = async() => {
     const products = await Product.find()
+    return products
+}
+
+const getProductByIdFromDB = async(id) => {
+    const product = Product.findOne({ _id: id })
+    return product
+}
+
+const getProductByFilterFromDB = async(filterProperty) => {
+    const products = await Product.find().where('price.sell_price').gte(filterProperty.price_from).lte(filterProperty.price_to).exec()
     return products
 }
 
@@ -23,9 +28,16 @@ const updateProductByIdToDB = async( id, updatedData ) => {
       return modifiedProduct
 }
 
+const deleteProductByIdFromDB = async(id) => {
+    const deletedProduct = await Product.deleteOne({ _id: id }) // Delete the product based on the ID
+    return deletedProduct
+}
+
 module.exports = {
     createProductToDB,
-    deleteProductByIdFromDB,
     getAllProductFromDB,
-    updateProductByIdToDB
+    getProductByIdFromDB,
+    getProductByFilterFromDB,
+    updateProductByIdToDB,
+    deleteProductByIdFromDB,
 }
