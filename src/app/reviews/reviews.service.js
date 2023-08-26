@@ -1,8 +1,14 @@
-const Reviews = require("./reviews.model");
+const Review = require("./reviews.model");
+const Product = require("../products/products.model");
 
 const createReviewToDB = async (data) => {
-  const review = new Review(data); // Create a new review instance based on the request body
-  await Review.save(); // Save the review instance to the database
+  const query = new Review(data); // Create a new review instance based on the request body
+  const review = await query.save(); // Save the review instance to the database
+  await Product.findByIdAndUpdate(
+    { _id: data.product_id },
+    { "$push": { "reviews": review._id } }
+  )
+  return review;
 };
 
 // const deleteProductByIdFromDB = async (id) => {
