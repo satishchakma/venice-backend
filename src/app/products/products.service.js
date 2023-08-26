@@ -16,7 +16,25 @@ const getProductByIdFromDB = async(id) => {
 }
 
 const getProductByFilterFromDB = async(filterProperty) => {
-    const products = await Product.find().where('price.sell_price').gte(filterProperty.price_from).lte(filterProperty.price_to).exec()
+    const query = Product.find()
+
+    if(filterProperty.category) {
+        query.where('category_id').equals(filterProperty.category)
+    }
+
+    if(filterProperty.price_to) {
+        query.where('price.sell_price').gte(filterProperty.price_from || 0).lte(filterProperty.price_to)
+    }
+
+    if(filterProperty.status) {
+        query.where('status').equals(filterProperty.status)
+    }
+
+    if(filterProperty.quantity) {
+        query.where('quantity').lte(filterProperty.quantity)
+    }
+
+    const products = await query.exec()
     return products
 }
 
