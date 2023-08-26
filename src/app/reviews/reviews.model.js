@@ -3,6 +3,8 @@ const Schema = mongoose.Schema;
 
 const reviewSchema = mongoose.Schema({
   //add user id and product id later
+  //   user_id: {type: Schema.Types.ObjectId},
+  product_id: { type: Schema.Types.ObjectId },
   rating: { type: Number, default: 0, required: true, min: 1, max: 5 },
   review_text: { type: String, required: true },
   review_timestamp: {
