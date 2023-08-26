@@ -16,8 +16,8 @@ const productSchema = mongoose.Schema({
         media_image: { type: [String], default: undefined }
     },
     // category_id: { type: Schema.Types.ObjectsId, default: undefined },
-    ratting: { type: Number, default: 0 },
-    reviews: { type: [ Schema.Types.ObjectsId ], default: undefined },
+    // rating: { type: Number, default: 0 },
+    reviews: { type: [ Schema.Types.ObjectsId ], default: undefined, ref: 'Review' },
     timestamps: {
         createdAt: { type: Date, default: Date.now(), immutable: true },
         updatedAt: { type: Date, default: Date.now() },

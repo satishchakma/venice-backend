@@ -1,8 +1,8 @@
 const Product = require('./products.model')
 
 const createProductToDB = async(data) => {
-    const product = new Product(data)  // Create a new product instance based on the request body
-    await product.save() // Save the product instance to the database
+    const product = await new Product.create(data)  // Create a new product instance based on the request body
+    return product
 }
 
 const getAllProductFromDB = async() => {
@@ -11,7 +11,10 @@ const getAllProductFromDB = async() => {
 }
 
 const getProductByIdFromDB = async(id) => {
-    const product = Product.findOne({ _id: id })
+    const product = Product.findOne({ _id: id }).populate({ 
+        path: 'reviews', 
+        select: '-review_timestamp.updatedAt -_id -product_id -__v'
+    })
     return product
 }
 
